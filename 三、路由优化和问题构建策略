@@ -1,0 +1,35 @@
+Routing（路由）
+
+主要解决的是从获取query之后，所选择问题域的方案，包括Logical routing and Semantic routing，基于逻辑路由和语义路由的分发。数据源选择，Prompt选择。
+  
+Logical Routing：
+  
+根据 query 类型/格式/规则，路由到不同数据源（结构化/非结构化）	如果 query 提到 “连接关系”，就查询图数据库，否则查向量库
+  
+Semantic Routing：
+  
+根据 query 的语义内容，判断其属于哪个“问题域”或“子任务”	如果 query 是技术问题，用技术知识库；如果是产品咨询，用产品 FAQ
+  
+### 10-Logical and Semantic routing
+  
+Logical routing（数据源路由）
+  
+配置不同的数据源以供选择。 Use function-calling for classification. Flow:
+
+不同数据源：图数据库（Graph DB）和向量存储（vectorstore）
+
+和function calling有啥关系？这不是agent调用工具里的概念吗？
+
+function-calling 是Routing 的实现手段，不是只有 Agent 能用它。
+
+虽然你在 Agent 场景中常见 function-calling，但它其实是通用的机制，本质是：“根据用户 Query，自动调用某个对应的函数/路由逻辑”
+  
+Docs:Routing | 🦜️🔗 LangChain[10]
+  
+Note:we used function calling to produce structured output.
+  
+Semantic routing（Prompt路由）
+  
+配置不同的Prompt进行选择。Flow:
+  
+Docs:Route logic based on input | 🦜️🔗 LangChain[11]
