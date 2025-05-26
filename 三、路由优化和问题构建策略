@@ -26,10 +26,144 @@ function-calling 是Routing 的实现手段，不是只有 Agent 能用它。
   
 Docs:Routing | 🦜️🔗 LangChain[10]
   
-Note:we used function calling to produce structured output.
+Note:we used function calling to produce structured output.？
+
+可能意思是输出 Object(datasource='vectorstore')
   
 Semantic routing（Prompt路由）
   
 配置不同的Prompt进行选择。Flow:
   
 Docs:Route logic based on input | 🦜️🔗 LangChain[11]
+
+Semantic routing（Prompt路由）
+  
+配置不同的Prompt进行选择。 Flow:
+  
+不太懂???
+  
+Docs:Route logic based on input | 🦜️🔗 LangChain[11]
+
+
+  
+Query Construction问题构建优化策略
+  
+在上一步中的Logical routing中，我们知道数据可能存储在关系型数据库或图数据库中，根据数据的类型，我们将其分为结构化（SQL 或图数据库）、半结构化（将结构化元素与非结构化元素）和非结构化（向量数据库）三大类。
+  
+将自然语言与各种类型的数据无缝连接是一件极具挑战的事情。要从这些库中检索数据，必须使用特定的语法，而用户问题通常都是用自然语言提出的，**所以我们需要将自然语言转换为特定的查询语法。这个过程被称为查询构造（Query Construction）。**
+  
+查询构造主要有上图中的三种：Text-to-SQL（关系型数据库）、Text-to-Cypher（图数据库）、Self-Query rertriver（向量数据库），除此之外还有半结构化数据（Text-to-SQL + Semantic）。
+  
+其中向量数据库中常用的是基于元数据过滤器。
+  
+11-Query structuring for metadata filtersFlow:
+  
+许多向量库都包含元数据字段。这使得基于元数据过滤特定块成为可能。
+  
+元数据过滤器是基于某些特定的元数据属性（如时间、类别、语言、标签等）来限定查询的范围，从而缩小搜索空间，提高检索的精度。
+  
+Docs:Structuring | 🦜️🔗 LangChain[12]
+  
+ 一、三类数据的 Query Construction 工程实践
+  
+数据类型	工程做法	工具/实现方式
+  
+结构化（SQL）	Text-to-SQL 转换（自动/模板）	LLM + Prompt + 函数调用 / Text2SQL
+  
+图数据库（Cypher）	Text-to-Cypher 转换	LangChain CypherQAChain + schema prompt
+  
+非结构化（向量数据库）	向量检索 + 元数据过滤器	LangChain SelfQueryRetriever + 元数据 schema
+  
+半结构化	混合 SQL + 向量查询	多路检索器 + 查询合并策略
+
+🧠 二、元数据过滤器（Metadata Filter）在向量数据库中的工程实现
+  
+在向量检索中，我们通常要配合 metadata filters 限定搜索范围，比如：
+  
+“只在2023年之后的中文金融类文档中搜索关于信用评级的内容”
+  
+向量检索只是语义相似度匹配，而元数据过滤器让我们在检索前缩小搜索集合，提高准确性和效率。
+  
+✅ 使用场景
+  
+时间范围限制：如只查近一年文档
+  
+类别过滤：只查“合同”类文档
+  
+多条件联合过滤：行业 + 时间 + 标签
+  
+🛠️ 三、落地实现：LangChain + SelfQueryRetriever
+  
+LangChain 提供了一个很典型的实现：SelfQueryRetriever
+  
+它通过让 LLM 自动生成 filter 查询结构，再喂给向量数据库。
+  
+🔽 示例代码（使用 FAISS + SelfQueryRetriever）：
+
+```
+from langchain.vectorstores import FAISS
+from langchain.retrievers.self_query.base import SelfQueryRetriever
+from langchain.chains.query_constructor.schema import AttributeInfo
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.chat_models import ChatOpenAI
+
+# 1. 假设你向量文档中的 metadata 有 category 和 created_at 字段
+metadata_field_info = [
+    AttributeInfo(name="category", description="文档类型，比如合同、财报", type="string"),
+    AttributeInfo(name="created_at", description="创建日期", type="date")
+]
+
+document_content_description = "企业相关文档内容"
+
+retriever = SelfQueryRetriever.from_llm(
+    llm=ChatOpenAI(model="gpt-4"),
+    vectorstore=FAISS.load_local("faiss_index", OpenAIEmbeddings()),
+    document_contents=document_content_description,
+    metadata_field_info=metadata_field_info,
+    search_kwargs={"k": 5}  # top-k 限制
+)
+
+# 2. 查询示例
+query = "查找2023年之后的合同类文档中关于违约责任的内容"
+docs = retriever.get_relevant_documents(query)
+```
+
+解析：
+  
+LLM 会自动构建 filter 查询结构，例如：
+  
+```
+filter = {
+    "category": "合同",
+    "created_at": {"$gte": "2023-01-01"}
+}
+```
+  
+然后由 FAISS 或 Chroma、Weaviate 等向量库执行向量检索 + 元数据过滤。
+  
+🔌 四、支持元数据过滤的常见向量库
+  
+向量库	              是否支持元数据过滤	                    工具链                     是否支持原生filter	          建议用途
+  
+Chroma	               ✅ JSON-based filter	LangChain        内置                     ✅ 简单 filter 支持	          轻量项目可用
+  
+FAISS	                 ❌（需手动实现 filter）	             手动过滤后向量查找
+  
+Weaviate	             ✅ 支持 GraphQL filter               	LangChain 支持            ✅ 强大的 GraphQL filter	    多维数据查询
+  
+Pinecone	             ✅ 支持 metadata + filter	            LangChain 支持           ✅ 全原生支持	                 商用系统首选
+  
+Qdrant	               ✅ 非常强的条件过滤表达能力	          LangChain 支持            ✅ 语法最强、开源免费	         本地部署优秀
+
+📌 总结
+  
+点	说明
+  
+📚 向量库 metadata filter	           用于限定检索集合范围，配合语义检索
+  
+🧠 LLM 的作用	                       将自然语言 query 转换成 filter JSON（结构化元数据约束）
+  
+🧰 工程化入口	                       使用 LangChain SelfQueryRetriever.from_llm()
+  
+🔧 支持库推荐	                       Pinecone、Weaviate、Qdrant，Chroma（简单）
+
