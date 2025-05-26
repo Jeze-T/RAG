@@ -1,5 +1,5 @@
 # RAG  
->这是一个引用
+>这是一个引用，全文参考https://mp.weixin.qq.com/s/zmUTGAMoljXSmnoo_cBQig
   
 *这是斜体*  
 **这是加粗**  
