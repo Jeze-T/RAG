@@ -1,0 +1,89 @@
+解释不同的生成索引的方式，概要如下：
+  
+分块策略（Chunking）简单，更好的存储数据split，chunk，overlap（简单而直观的数据分割存储方法）。有多种分块方法，可以分解多种格式的文件，以及Embedding模型。
+  
+多重表示索引（Multi-representation Indexing），先生成文档摘要（“命题”）。再进行相似性搜索，但将完整文档返回给LLM进行生成.
+
+专用嵌入（Specialized Embeddings），为文档生成特定的向量嵌入，便于高效的相似性计算。例如使用Colbert专一领域的生成索引的方式。
+  
+分层索引（Hierarchical Indexing），构建多层次的摘要索引树，将文档在不同抽象层次上进行摘要。
+
+12-Multi-representation Indexing
+  
+除了存储文本的向量，图片和表格会生成对于的summary进行向量存储【可以使用多模态模型进行生成或者将图片/表格原文的相关上下文进行摘要选取】，同时保留原文件（图像和表格）及其对应关系，
+例如parent-document-retrival。Multi-representation Indexing，使用LLM生成针对检索进行优化的文档摘要（“命题”）。嵌入这些摘要以进行相似性搜索，但将完整文档返回给LLM进行生成。
+
+Docs:Multi-Vector Retriever for RAG on tables, text, and images[13]MultiVector Retriever | 🦜️🔗 LangChain[14]
+  
+Paper:https://arxiv.org/abs/2312.06648[15]
+
+13-RAPTOR（树状检索的递归抽象处理）
+  
+传统的RAG方法通常仅检索较短的连续文本块，这限制了对整体文档上下文的全面理解。
+  
+散乱的内容详略不一致的很多文档，如何进行有效分类和整理？
+  
+RAPTOR(Recursive Abstractive Processing for Tree-Organized Retrieval)通过递归嵌入、聚类和总结文本块，构建一个自底向上的树形结构，在推理时从这棵树中检索信息，从而在不同抽象层次上整合长文档的信息。
+  
+这是层级性索引的方案其思想在于对文档进行生成聚类摘要，然后将设计成层级性。
+  
+1、树形结构构建：
+  
+文本分块：首先将检索语料库分割成短的、连续的文本块。
+  
+嵌入和聚类：使用SBERT（基于BERT的编码器）将这些文本块嵌入，然后使用高斯混合模型（GMM）进行聚类。
+  
+摘要生成：对聚类后的文本块使用语言模型生成摘要，这些摘要文本再重新嵌入，并继续聚类和生成摘要，直到无法进一步聚类，最终构建出多层次的树形结构。
+
+2.查询方法：
+  
+树遍历：从树的根层开始，逐层选择与查询向量余弦相似度最高的节点，直到到达叶节点，将所有选中的节点文本拼接形成检索上下文。
+  
+平铺遍历：将整个树结构平铺成一个单层，将所有节点同时进行比较，选出与查询向量余弦相似度最高的节点，直到达到预定义的最大token数。
+  
+实验结果：RAPTOR在多个任务上显著优于传统的检索增强方法，特别是在涉及复杂多步推理的问答任务中。
+  
+RAPTOR与GPT-4结合后，在QuALITY基准上的准确率提高了20%。
+  
+代码：RAPTOR的源代码将在GitHub上公开。
+  
+数据集：实验中使用了NarrativeQA、QASPER和QuALITY等问答数据集。
+  
+Deep dive video:https://www.youtube.com/watch?v=jbGchdTL7d0[16]
+  
+Paper:https://arxiv.org/pdf/2401.18059.pdf[17]
+  
+Full code:https://github.com/langchain-ai/langchain/blob/master/cookbook/RAPTOR.ipynb[18]
+
+14-ColBERT
+
+RAGatouille使ColBERT的使用变得非常简单。ColBERT为段落中的每个标记生成一个受上下文影响的向量。ColBERT类似地为查询中的每个令牌生成向量。
+  
+然后，每个文档的得分是每个查询嵌入与任何文档嵌入的最大相似性的总和。
+  
+特定化的Embedding，之前的方法停留在文本层级，ColBERT做到了token级，
+为段落中的每个token生成一个受上下文影响的向量，ColBERT同样为查询中的每个token生成向量，然后，每个文档的得分就是每个查询嵌入与任意文档嵌入的最大相似度之和，
+  
+这块可以看：
+https://hackernoon.com/how-colbert-helps-developers-overcome-the-limits-of-rag[19]
+  
+RAGatouille | 🦜️🔗 LangChain[20]
+  
+https://til.simonwillison.net/llms/colbert-ragatouille[21]
+  
+🔹 用一个简单例子：
+假设：
+查询有 3 个 token 向量：[q1, q2, q3]
+文档有 5 个 token 向量：[d1, d2, d3, d4, d5]
+我们计算：
+MaxSim(q1) = max(sim(q1, d1), sim(q1, d2), ..., sim(q1, d5))
+MaxSim(q2) = max(sim(q2, d1), sim(q2, d2), ..., sim(q2, d5))
+MaxSim(q3) = max(sim(q3, d1), sim(q3, d2), ..., sim(q3, d5))
+然后，总得分是：
+score = MaxSim(q1) + MaxSim(q2) + MaxSim(q3)
+
+  
+总结：
+传统的 dense retrieval（如 DPR）是“整体向量 vs 整体向量”，粗粒度；
+ColBERT 是 token 级别匹配，保留更多细节，更细粒度，更精准；
+MaxSim 操作实现了查询中每个词和文档中最相关的词匹配，强调部分匹配（而不是整体相似）。
