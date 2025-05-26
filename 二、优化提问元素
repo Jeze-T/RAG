@@ -1,0 +1,118 @@
+Query Translation查询转换侧重于重写和/或修改问题，使得问题转换为更好解决的问题，更方便检索。
+
+### 5-Multi Query多查询策略
+  
+在同一维度，根据用户输入的问题生成多个子问题，对同一问题生成多个视角的提问，然后依次进行检索，最后将检索到的文档合并返回。
+
+### 6-RAG-Fusion多查询结果融合策略
+  
+RAG Fusion和MultiQueryRetriever基于同样的思路，在5生成子问题并检索的基础上，它对检索结果执行倒数排名融合（Reciprocal Rank Fusion，RRF）算法【后面再讲】，使得检索效果更好。
+  
+Docs:
+  
+langchain/cookbook/rag_fusion.ipynb at master · langchain-ai/langchain · GitHub[3]
+  
+Blog / repo:
+  
+https://towardsdatascience.com/forget-rag-the-future-is-rag-fusion-1147298d8ad1[4]
+
+### 7-Decomposition问题分解策略
+  
+在下一个更简单维度，将一个复杂问题分解成多个子问题，将问题分解为一组子问题。之后解决这些子问题再进行合并。
+  
+有两种类型：Answer recursively和Answer individually
+  
+Answer recursively使用第一个问题的答案+检索来回答第二个问题，以此类推。
+  
+Papers:
+  
+https://arxiv.org/pdf/2205.10625.pdf[5]
+  
+https://arxiv.org/abs/2212.10509.pdf[6]
+  
+Answer individually独立解决每一个问题，最后将每个答案合并为最终答案。
+
+### 8-Step Back问答回退策略
+  
+在更简单的维度，基于用户的原始问题生成一个后退问题，后退问题相比原始问题具有更高级别的概念或原则，从而提高解决复杂问题的效果。
+  
+构成上包括抽象abstraction和推理reasoning两个步骤，比如给定一个问题，需要提示大模型，找到回答该问题的一个前置问题，得到前置问题及其答案后，再将其整体与当前问题进行合并，最后送入大模型进行问答，得到最终答案。
+  
+例如一个关于物理学的问题可以后退为一个关于该问题背后的物理原理的问题，然后对原始问题和后退问题进行检索。
+  
+Paper:https://arxiv.org/pdf/2310.06117.pdf[7]
+  
+### 9-HyDE(Hypothetical Document Embeddings)假设性文档嵌入
+  
+使用基于相似性的向量检索时，在原始问题上进行检索可能效果不佳，因为它们的嵌入可能与相关文档的嵌入不太相似？，
+  
+但是，如果让大模型生成一个假设的相关文档，然后使用它来执行相似性检索可能会得到意想不到的结果。这就是假设性文档嵌入（Hypothetical Document Embeddings，HyDE）背后的关键思想。
+  
+Docs:langchain/cookbook/hypothetical\_document\_embeddings.ipynb at master · langchain-ai/langchain · GitHub[8]
+  
+Paper:https://arxiv.org/abs/2212.10496[9]
+  
+HyDE 可能出现的两个失败场景：
+  
+在没有上下文的情况下，HyDE 可能会对原始问题产出误解，导致检索出误导性的文档；
+  
+比如用户问题是 “What is Bel?”，由于大模型缺乏上下文，并不知道 Bel 指的是 Paul Graham 论文中提到的一种编程语言，因此生成的内容和论文完全没有关系，导致检索出和用户问题没有关系的文档；
+  
+对开放式的问题，HyDE 可能产生偏见；比如用户问题是 “What would the author say about art vs. engineering?”，这时大模型会随意发挥，生成的内容可能带有偏见，从而导致检索的结果也带有偏见；
+
+### 其他方法
+  
+查询重写（Query Rewriting），处理表达不清的用户输入，和处理聊天场景中的后续问题（Follow Up Questions）。
+  
+查询压缩（Query Compression），用户可能是以聊天对话的形式与系统交互的，为了正确回答用户的问题，我们需要考虑完整的对话上下文，为了解决这个问题，可以将聊天历史压缩成最终问题以便检索。
+  
+一、工程化落地方式概览
+  
+RAG 优化方法不是单纯靠 prompt 就能完全落地的，工程上需要对 RAG 的“检索器”和“生成器”部分进行系统性的封装与 orchestration。
+  
+可以分为两种落地模式：
+  
+✅ 方式 1：通过 Prompt 提示控制（轻量，适合初期验证）
+  
+例如：
+  
+Prompt 中引导 LLM 自行分解问题（Decomposition）
+  
+Prompt 中引导生成多个查询（Multi-query）
+  
+总结：适合做 PoC（原型验证），但控制力不够，效果不稳定。
+  
+✅ 方式 2：封装在管道中（推荐：模块化 RAG 系统）
+  
+工程上构建一个 Modular RAG Pipeline（比如用 LangChain、LlamaIndex、Haystack、RAGFlow等），然后：
+  
+每种策略封装成 pipeline 的一个 stage 或 node
+  
+将不同策略组合形成最优路径（比如先 Multi-query，再 Fusion，再生成）
+  
+三、推荐工具/框架
+  
+✅ 1. LangChain（推荐）
+  
+有对以上方法的原生支持
+  
+模块化好，适合构建自定义 RAG 工作流
+  
+支持：MultiQueryRetriever, HyDERetriever, LLMChain, RAGFusionRetriever, 等
+  
+✅ 2. LlamaIndex
+  
+偏向信息抽取和结构化文档索引
+  
+支持 query transformation、retrieval re-ranking、query decomposition 等
+  
+✅ 3. Haystack
+  
+企业级搜索系统整合方案
+  
+支持 Retriever→Reader→Generator pipeline
+  
+可对接 Elasticsearch/FAISS/BM25
+  
+✅ 4. RAGFlow（轻量级，可用于自定义多阶段流程）
+  
