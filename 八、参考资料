@@ -1,0 +1,95 @@
+[1]https://zhuanlan.zhihu.com/p/673027535:https://zhuanlan.zhihu.com/p/673027535
+[2]MultiQueryRetriever | 🦜️🔗 LangChain:https://python.langchain.com/docs/modules/data_connection/retrievers/MultiQueryRetriever
+[3]langchain/cookbook/rag_fusion.ipynb at master · langchain-ai/langchain · GitHub:https://github.com/langchain-ai/langchain/blob/master/cookbook/rag_fusion.ipynb?ref=blog.langchain.dev
+[4]https://towardsdatascience.com/forget-rag-the-future-is-rag-fusion-1147298d8ad1:https://towardsdatascience.com/forget-rag-the-future-is-rag-fusion-1147298d8ad1
+[5]https://arxiv.org/pdf/2205.10625.pdf:https://arxiv.org/pdf/2205.10625.pdf
+[6]https://arxiv.org/abs/2212.10509.pdf:https://arxiv.org/abs/2212.10509.pdf
+[7]https://arxiv.org/pdf/2310.06117.pdf:https://arxiv.org/pdf/2310.06117.pdf
+[8]langchain/cookbook/hypothetical_document_embeddings.ipynb at master · langchain-ai/langchain · GitHub:https://github.com/langchain-ai/langchain/blob/master/cookbook/hypothetical_document_embeddings.ipynb
+[9]https://arxiv.org/abs/2212.10496:https://arxiv.org/abs/2212.10496
+[10]Routing | 🦜️🔗 LangChain:https://python.langchain.com/docs/use_cases/query_analysis/techniques/routing#routing-to-multiple-indexes
+[11]Route logic based on input | 🦜️🔗 LangChain:https://python.langchain.com/docs/expression_language/cookbook/embedding_router
+[12]Structuring | 🦜️🔗 LangChain:https://python.langchain.com/docs/use_cases/query_analysis/techniques/structuring
+[13]Multi-Vector Retriever for RAG on tables, text, and images:https://blog.langchain.dev/semi-structured-multi-modal-rag/
+[14]MultiVector Retriever | 🦜️🔗 LangChain:https://python.langchain.com/docs/modules/data_connection/retrievers/multi_vector
+[15]https://arxiv.org/abs/2312.06648:https://arxiv.org/abs/2312.06648
+[16]https://www.youtube.com/watch?v=jbGchdTL7d0:https://www.youtube.com/watch?v=jbGchdTL7d0
+[17]https://arxiv.org/pdf/2401.18059.pdf:https://arxiv.org/pdf/2401.18059.pdf
+[18]https://github.com/langchain-ai/langchain/blob/master/cookbook/RAPTOR.ipynb:https://github.com/langchain-ai/langchain/blob/master/cookbook/RAPTOR.ipynb
+[19]https://hackernoon.com/how-colbert-helps-developers-overcome-the-limits-of-rag:https://hackernoon.com/how-colbert-helps-developers-overcome-the-limits-of-rag
+[20]RAGatouille | 🦜️🔗 LangChain:https://python.langchain.com/v0.2/docs/integrations/retrievers/ragatouille/
+[21]https://til.simonwillison.net/llms/colbert-ragatouille:https://til.simonwillison.net/llms/colbert-ragatouille
+[22]BM25:https://en.wikipedia.org/wiki/Okapi_BM25
+[23]TF-IDF:https://en.wikipedia.org/wiki/Tf%E2%80%93idf
+[24]它的论文地址:https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf
+[25]这篇博客:https://blog.langchain.dev/semi-structured-multi-modal-rag/
+[26]Contextual compression:https://python.langchain.com/v0.1/docs/modules/data_connection/retrievers/contextual_compression/
+[27]Cohere reranker:https://python.langchain.com/v0.1/docs/integrations/retrievers/cohere-reranker/
+[28]Cohere Re-Rank:https://python.langchain.com/docs/integrations/retrievers/cohere-reranker#doing-reranking-with-coherererank
+[29]here:https://txt.cohere.com/rerank/
+[30]Jina AI:https://jina.ai/
+[31]Rerank API:https://jina.ai/reranker/
+[32]sentence-transformer:https://www.sbert.net/index.html
+[33]sentence-transformer 文档:https://www.sbert.net/docs/pretrained-models/ce-msmarco.html
+[34]ColBERT:https://github.com/stanford-futuredata/ColBERT
+[35]Is ChatGPT Good at Search? Investigating Large Language Models as Re-Ranking Agents:https://arxiv.org/abs/2304.09542
+[36]RankGPT 的源码:https://github.com/sunnweiwei/RankGPT
+[37]RankLLM:https://github.com/castorini/rank_llm
+[38]FastChat:https://github.com/lm-sys/FastChat?tab=readme-ov-file#supported-models
+[39]https://www.youtube.com/watch?v=E2shqsYwxck:https://www.youtube.com/watch?v=E2shqsYwxck
+[40]https://github.com/langchain-ai/langgraph/blob/main/examples/rag/langgraph_crag.ipynb:https://github.com/langchain-ai/langgraph/blob/main/examples/rag/langgraph_crag.ipynb
+[41]https://github.com/langchain-ai/langgraph/blob/main/examples/rag/langgraph_crag_mistral.ipynb:https://github.com/langchain-ai/langgraph/blob/main/examples/rag/langgraph_crag_mistral.ipynb
+[42]Self-Reflective RAG with LangGraph:https://blog.langchain.dev/agentic-rag-with-langgraph/
+[43]langgraph/examples/rag at main · langchain-ai/langgraph · GitHub:https://github.com/langchain-ai/langgraph/tree/main/examples/rag
+[44]https://github.com/langchain-ai/langgraph/blob/main/examples/rag/langgraph_self_rag_mistral_nomic.ipynb:https://github.com/langchain-ai/langgraph/blob/main/examples/rag/langgraph_self_rag_mistral_nomic.ipynb
+[45]https://arxiv.org/pdf/2310.11511:https://arxiv.org/pdf/2310.11511
+[46]Retrieval-Augmented Generation for Large Language Models: A Survey:https://arxiv.org/abs/2312.10997
+[47]论文:https://arxiv.org/abs/2312.10997
+[48]https://arxiv.org/pdf/2201.11903.pdf:https://arxiv.org/pdf/2201.11903.pdf
+[49]https://arxiv.org/pdf/2305.10601.pdf:https://arxiv.org/pdf/2305.10601.pdf
+[50]https://arxiv.org/pdf/2210.03629:https://arxiv.org/pdf/2210.03629
+[51]Chunking Strategies for LLM Applications | Pinecone:https://www.pinecone.io/learn/chunking-strategies/#Chunking-methods
+[52]https://blog.csdn.net/EnjoyEDU/article/details/141038019:https://blog.csdn.net/EnjoyEDU/article/details/141038019
+[53]高级 RAG 技术学习笔记 - aneasystone's blog:https://www.aneasystone.com/archives/2024/06/advanced-rag-notes.html
+[54]这篇博客:https://www.pinecone.io/learn/chunking-strategies/
+[55]这篇博客:https://www.mattambrogi.com/posts/chunk-size-matters/
+[56]tiktoken:https://github.com/openai/tiktoken
+[57]MarkdownHeaderTextSplitter:https://python.langchain.com/v0.1/docs/modules/data_connection/document_transformers/markdown_header_metadata/
+[58]HTMLHeaderTextSplitter:https://python.langchain.com/v0.1/docs/modules/data_connection/document_transformers/HTML_header_metadata/
+[59]HTMLSectionSplitter:https://python.langchain.com/v0.1/docs/modules/data_connection/document_transformers/HTML_section_aware_splitter/
+[60]RecursiveJsonSplitter:https://python.langchain.com/v0.1/docs/modules/data_connection/document_transformers/recursive_json_splitter/
+[61]The 5 Levels Of Text Splitting For Retrieval:https://www.youtube.com/watch?v=8OJC21T2SL4
+[62]这里:https://github.com/FullStackRetrieval-com/RetrievalTutorials/blob/main/tutorials/LevelsOfTextSplitting/5_Levels_Of_Text_Splitting.ipynb
+[63]SemanticChunker:https://python.langchain.com/v0.1/docs/modules/data_connection/document_transformers/semantic-chunker/
+[64]SemanticSplitterNodeParser:https://docs.llamaindex.ai/en/stable/examples/node_parsers/semantic_chunking/
+[65]bge-large:https://huggingface.co/BAAI/bge-large-en-v1.5
+[66]multilingual-e5-large:https://huggingface.co/intfloat/multilingual-e5-large
+[67]text-embedding-3-large:https://platform.openai.com/docs/guides/embeddings
+[68]MTEB 排行榜:https://huggingface.co/spaces/mteb/leaderboard
+[69]从静态到动态的发展过程:https://cloud.tencent.com/developer/article/1610111
+[70]Training and Finetuning Embedding Models with Sentence Transformers v3:https://huggingface.co/blog/train-sentence-transformers
+[71]Using LangSmith to Support Fine-tuning:https://blog.langchain.dev/using-langsmith-to-support-fine-tuning-of-open-source-llms/
+[72]Evaluating RAG pipelines with Ragas + LangSmith:https://blog.langchain.dev/evaluating-rag-pipelines-with-ragas-langsmith/
+[73]AI大模型探索之路-应用篇11：AI大模型应用智能评估（Ragas）-CSDN博客:https://blog.csdn.net/xiaobing259/article/details/137677468
+[74]使用 Trulens 评估 RAG 应用:https://mp.weixin.qq.com/s?__biz=Mzg5NDkxMzQwMA==&mid=2247484050&idx=1&sn=5e177211ff7c124456ef0a808c6029e4&chksm=c0191c85f76e9593ca48fe850f626dc84f923373decc28a551342cfb7400fa6ab2a0c5a6d3d8&scene=21&poc_token=HAYA3majyh_6l65uyHeA2rlYKuBw07yPscakTnhq
+[75]https://arxiv.org/pdf/2401.05856:https://arxiv.org/pdf/2401.05856
+[76]12 RAG Pain Points and Proposed Solutions:https://towardsdatascience.com/12-rag-pain-points-and-proposed-solutions-43709939a28c
+[77]删除 PII 信息:https://docs.llamaindex.ai/en/stable/examples/node_postprocessor/PII/
+[78]Perplexity 泄露出来的 Prompt:https://twitter.com/jmilldotdev/status/1600624362394091523
+[79]WebLangChain 对其修改后的实现:https://smith.langchain.com/hub/hwchase17/weblangchain-generation
+[80]一文详看Langchain框架中的RAG多阶段优化策略：从问题转换到查询路由再到生成优化:https://mp.weixin.qq.com/s/pK2BRLrWpEKKIPFhUtGvcg
+[81]高级 RAG 技术学习笔记 - aneasystone's blog:https://www.aneasystone.com/archives/2024/06/advanced-rag-notes.html
+[82]LLM大模型技术实战：一文讲透专补大模型短板的RAG_大模型提升搜索召回率-CSDN博客:https://blog.csdn.net/kaka0722ww/article/details/141369091
+[83]一文详谈20多种RAG优化方法 - 大模型知识库|大模型训练|开箱即用的企业大模型应用平台|智能体开发|53AI:https://53ai.com/news/RAG/2024071554216.html
+[84]一文详谈20多种RAG优化方法:https://mp.weixin.qq.com/s/xMsPh8qicRD395vjFR250A
+[85]【AI开发】CRAG、Self-RAG、Adaptive-RAG_corrective rag 和 self rag-CSDN博客:https://blog.csdn.net/qq_44899247/article/details/139745101
+[86]【RAG 论文】Adaptive-RAG：自适应地根据 query 难度来选择合适的 RAG 模型_adaptive-rag: learning to adapt retrieval-augmente-CSDN博客:https://blog.csdn.net/qq_45668004/article/details/138199143
+[87]https://zhuanlan.zhihu.com/p/680265210:https://zhuanlan.zhihu.com/p/680265210
+[88]3.2 ReAct 与 CoT、ToT 的区别 - 大模型知识库|大模型训练|开箱即用的企业大模型应用平台|智能体开发|53AI:https://www.53ai.com/news/qianyanjishu/2024060829485.html
+[89]【AI大模型应用开发】从CoT到ToT，再到ReAct，提升大模型推理能力的方式探索（含代码）_react cot-CSDN博客:https://blog.csdn.net/Attitude93/article/details/138072340
+[90]运维 + AI，你得先搞懂这些_运维ai-CSDN博客:https://blog.csdn.net/n9ecommunity/article/details/141068310
+[91]一文梳理有效提升RAG效果的方法-CSDN博客:https://blog.csdn.net/Taobaojishu/article/details/141145668
+[92]改进召回（Retrieval）和引入重排（Reranking）提升RAG架构下的LLM应用效果_cohere rerank-CSDN博客:https://blog.csdn.net/sinat_37574187/article/details/133148623
+[93]《设计 RAG 系统时需要考虑的七个失败点 》论文 AI 解读 - 大模型知识库|大模型训练|开箱即用的企业大模型应用平台|智能体开发|53AI:https://www.53ai.com/news/RAG/2024081916894.html
+[94]大模型高级 RAG 检索策略之句子窗口检索_rag流程图-CSDN博客:https://blog.csdn.net/2201_75499313/article/details/136695225
+[95]AI大模型探索之路-应用篇11：AI大模型应用智能评估（Ragas）-CSDN博客:https://blog.csdn.net/xiaobing259/article/details/137677468
