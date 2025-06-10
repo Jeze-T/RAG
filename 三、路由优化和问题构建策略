@@ -155,6 +155,8 @@ Pinecone	             ✅ 支持 metadata + filter	            LangChain 支持 
   
 Qdrant	               ✅ 非常强的条件过滤表达能力	          LangChain 支持            ✅ 语法最强、开源免费	         本地部署优秀
 
+Milvus	             ✅ 企业级本地部署	           面向生产环境，国产企业较多选用（如 Zilliz 公司）。
+
 📌 总结
   
 点	说明
