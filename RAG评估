@@ -1,0 +1,69 @@
+>https://blog.51cto.com/u_16163453/13360600
+在评估RAG系统时，有几个工具和框架挺不错：
+RAGAS：简化评估流程，强调平均精度和忠实度等自定义指标。
+ARES：利用合成数据和LLM评委，重点关注MRR和NDCG。
+DeepEval：一个开源框架，提供一系列LLM评估指标，覆盖检索和生成。
+TruLens：专注于特定领域的优化，强调领域内的准确性和精确度。
+Galileo：集成先进见解和指标，提升性能和透明度。
+Tonic Validate：专门测量RAG LLM系统的性能。
+G-Eval：使用带有思路链（CoT）的LLM，根据自定义标准评估LLM输出。
+
+
+
+
+
+>https://it.sohu.com/a/787012070_411876
+人工评估：
+Trulens
+TruLens是一款旨在评估和改进 LLM 应用的软件工具，它相对独立，可以集成 LangChain 或 LlamaIndex 等 LLM 开发框架。它使用反馈功能来客观地衡量 LLM 应用的质量和效果。这包括分析相关性、适用性和有害性等方面。TruLens 提供程序化反馈，支持 LLM 应用的快速迭代，这比人工反馈更快速、更可扩展。
+开源链接：github.com/truera/trulens
+使用手册：trulens.org/trulens_eval/install/
+
+使用的步骤：
+（1）创建LLM应用
+（2）将LLM应用与TruLens连接，记录日志并上传
+（3）添加 feedback functions到日志中，并评估LLM应用的质量
+（4）在TruLens的看板中可视化查看日志、评估结果等
+（5）迭代和优化LLM应用，选择最优的版本
+
+其对于RAG的评估主要有三个指标：
+上下文相关性（context relevance）：衡量用户提问与查询到的参考上下文之间的相关性
+忠实性（groundedness ）：衡量大模型生成的回复有多少是来自于参考上下文中的内容
+答案相关性（answer relevance）：衡量用户提问与大模型回复之间的相关性
+
+TruLens的好处就是对RAG的评估不需要有提前收集的测试数据集和相应的答案。
+
+
+RAGAS
+RAGAS应该是最著名的RAG评估框架了，最初是作为一种无需参照标准的评估框架而设计的。这意味着，RAGAs 不需要依赖评估数据集中人工标注的标准答案，而是利用底层的大语言模型进行评估。
+RAGAS包含四个指标，与Trulens的评估指标有些类似：
+评估检索质量：
+context_relevancy（上下文相关性，也叫 context_precision）
+context_recall（召回性，越高表示检索出来的内容与正确答案越相关）
+评估生成质量：
+faithfulness（忠实性，越高表示答案的生成使用了越多的参考文档（检索出来的内容））
+answer_relevancy（答案的相关性）
+
+
+自动化评估
+LangSmith
+LangSmith是一个用于调试、测试和监控LLM应用程序的统一平台。会记录大模型发起的所有请求，除了输入输出，还能看到具体的所有细节，包括：
+请求的大模型、模型名、模型参数
+请求的时间、消耗的 token 数量
+请求中的所有上下文消息，包括系统消息
+
+Langfuse
+Langfuse作为LangSmith的平替，可以帮助开发者和运维团队更好地理解和优化他们的LLM应用。通过提供实时的和可视化的跟踪功能，LangFuse使得识别和解决应用性能问题变得更加简单和高效。
+主要是基于可观察性和分析技术来监控和优化 LLM 应用。它提供了一套完整的解决方案，通过收集、处理和分析 LLM 应用在运行过程中产生的各种数据，来生成实时的结果。
+
+
+
+
+
+>https://blog.csdn.net/zhishi0000/article/details/140545044
+RAGAS
+>https://blog.csdn.net/m0_59235945/article/details/143027480
+>https://zhuanlan.zhihu.com/p/714757064
+
+TruLens
+>https://cloud.tencent.com/developer/article/2402052
