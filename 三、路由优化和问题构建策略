@@ -151,7 +151,7 @@ FAISS	                 ❌（需手动实现 filter）	             手动过滤
   
 Weaviate	             ✅ 支持 GraphQL filter               	LangChain 支持            ✅ 强大的 GraphQL filter	    多维数据查询
   
-Pinecone	             ✅ 支持 metadata + filter	            LangChain 支持           ✅ 全原生支持	                 商用系统首选
+Pinecone	             ✅ 支持 metadata + filter	            LangChain 支持           ✅ 全原生支持	                 商用系统首选   不能本地部署！向量	必须上传到 Pinecone 云端
   
 Qdrant	               ✅ 非常强的条件过滤表达能力	          LangChain 支持            ✅ 语法最强、开源免费	         本地部署优秀
 
